@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Image, Text, Platform } from 'react-native';
+import { ScrollView, StyleSheet, View, Image, Text, Platform, ActivityIndicator } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 import SocialIcon from '../components/SocialIcon';
 
@@ -27,6 +27,11 @@ export default class ProfileScreen extends React.Component {
          <View style={styles.socialLink}>
                 <SocialIcon name={Platform.OS === 'ios' ? `ios-logo-twitter${focused ? '' : '-outline'}` : 'logo-twitter'}/>
                 <Text style={styles.socialText}>@arcalinea on Twitter</Text>
+         </View>
+         
+         <View style={styles.socialLink}>
+                <SocialIcon name={Platform.OS === 'ios' ? `ios-logo-facebook${focused ? '' : '-outline'}` : 'logo-facebook'}/>
+                <Text style={styles.socialText}>Jay Graber on Facebook</Text>
          </View>
        </View>
        
@@ -67,6 +72,7 @@ const styles = StyleSheet.create({
   socialLink: {
       flex: 1,
       flexDirection: 'row',
+      paddingVertical: 5,
   },
   socialText: {
       fontSize: 18,

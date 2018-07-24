@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "bridge-app",
-    "description": "A very interesting project.",
+    "description": "Social media portal.",
     "slug": "bridge-app",
     "privacy": "public",
     "sdkVersion": "28.0.0",

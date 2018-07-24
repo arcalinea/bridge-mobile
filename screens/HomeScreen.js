@@ -8,62 +8,17 @@ import {
   TouchableOpacity,
   View,
   ActivityIndicator,
+  Modal,
+  TouchableHighlight,
 } from 'react-native';
-import { WebBrowser } from 'expo';
+import { WebBrowser, Icon } from 'expo';
 
 import { MonoText } from '../components/StyledText';
-import { Tweet } from '../components/Tweet';
+import { Post } from '../components/Post';
+import { NewPost } from '../components/NewPost';
 
-const tweets = [
-    {
-    type: 'tweet',
-    source: 'twitter(https://twitter.com/arcalinea/status/977322529508425728)',
-    author: '',
-    created_at: '2018-03-23 23:13:43 +0000',
-    data: { text: '@dandelionmane @pandoras_foxo Oooh nice' },
-    response_to: 'twitter(https://twitter.com/decentralion/status/977316726093234177)',
-    signature: '' },
-    {
-    type: 'tweet',
-    source: 'twitter(https://twitter.com/arcalinea/status/987349217566846976)',
-    author: '',
-    created_at: '2018-04-20 15:16:12 +0000',
-    data: { text: 'RT @remyers_: If you are interested in a sober review of incentivized mesh networking projects, please check out the review @arcalinea and…' },
-    response_to: '',
-    signature: '' },
-    {
-    type: 'tweet',
-    source: 'twitter(https://twitter.com/arcalinea/status/977253119070539782)',
-    author: '',
-    created_at: '2018-03-23 18:37:54 +0000',
-    data: { text: '@SarahGPerry @patrickod This is magical' },
-    response_to: 'twitter(https://twitter.com/SarahGPerry/status/976953197108563968)',
-    signature: '' },
-    {
-    type: 'tweet',
-    source: 'twitter(https://twitter.com/arcalinea/status/977322529508425728)',
-    author: '',
-    created_at: '2018-03-23 23:13:43 +0000',
-    data: { text: 'yay another tweet' },
-    response_to: 'twitter(https://twitter.com/decentralion/status/977316726093234177)',
-    signature: '' },
-    {
-    type: 'tweet',
-    source: 'twitter(https://twitter.com/arcalinea/status/976877284694085632)',
-    author: '',
-    created_at: '2018-03-22 17:44:28 +0000',
-    data: { text: 'RT @fchollet: We’re looking at a powerful entity that builds fine-grained psychological profiles of over two billion humans, that runs larg…' },
-    response_to: '',
-    signature: '' },
-    {
-    type: 'tweet',
-    source: 'twitter(https://twitter.com/arcalinea/status/976877102296379394)',
-    author: '',
-    created_at: '2018-03-22 17:43:45 +0000',
-    data: { text: 'RT @fchollet: The problem with Facebook is not *just* the loss of your privacy and the fact that it can be used as a totalitarian panoptico…' },
-    response_to: '',
-    signature: '' }
-]
+import dataFile from '../assets/posts.js';
+import modalStyles from '../assets/styles/modal.js';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -76,17 +31,27 @@ export default class HomeScreen extends React.Component {
          loading: true,
          error: false,
          posts: [],
+         modalVisible: false,
      }
+  }
+  
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
   }
   
   componentWillMount = async () => {
     try {
-        const response = await fetch('http://192.168.0.193:7777/feed/arcalinea')
+        const response = await fetch('http://192.168.0.104:7777/feed/arcalinea')
         const posts = await response.json()
 
         this.setState({loading: false, posts})
     } catch (e) {
-        this.setState({loading: true, error: true})
+        if (__DEV__){
+            console.log("In dev mode, using hardcoded tweets")
+            this.setState({loading: false, error: false, posts: dataFile.posts})
+        } else {
+            this.setState({loading: true, error: true})
+        }
     }
   }
 
@@ -102,9 +67,9 @@ export default class HomeScreen extends React.Component {
                     source={
                       __DEV__
                         ? require('../assets/images/j-twitter-profile.jpg')
-                        : require('../assets/images/robot-prod.png')
+                        : require('../assets/images/j-twitter-profile.jpg')
                     }
-                    style={styles.welcomeImage}
+                    style={styles.profileImage}
                   />
                 </View>
             
@@ -128,6 +93,36 @@ export default class HomeScreen extends React.Component {
     
     return (
       <View style={styles.container}>
+        <Modal 
+          animationType={"slide"}
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            this.setModalVisible(false);
+          }}>
+            <View style={modalStyles.modalStyle}>
+              <View style={modalStyles.tabBarInfoContainer}>
+                  <TouchableOpacity onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
+                      <View>
+                        <Icon.Ionicons name='md-arrow-round-back' style={modalStyles.backArrow}/>
+                      </View>
+                  </TouchableOpacity>
+              </View>
+              <ScrollView style={modalStyles.modalScrollPanel}>
+                <View>
+                  <NewPost/>
+                  
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.setModalVisible(!this.state.modalVisible);
+                    }}>
+                    <Text>Hide Modal</Text>
+                  </TouchableHighlight>
+                </View>
+              </ScrollView>
+            </View>
+        </Modal>
+      
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
             <Image
@@ -136,12 +131,14 @@ export default class HomeScreen extends React.Component {
                   ? require('../assets/images/j-twitter-profile.jpg')
                   : require('../assets/images/robot-prod.png')
               }
-              style={styles.welcomeImage}
+              style={styles.profileImage}
             />
-          </View>
-
-          <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
+            <TouchableOpacity style={styles.newPostButton} onPress={() => {this.setModalVisible(true);}}>
+                <View>
+                  <Icon.Ionicons name='md-create' style={styles.createIcon}/>
+                </View>
+                <Text style={styles.createText}>New</Text>
+            </TouchableOpacity>
           </View>
           
           <View style={styles.feedContainer}>
@@ -153,7 +150,12 @@ export default class HomeScreen extends React.Component {
       </View>
     );
   }
+  
 
+  // <View style={styles.getStartedContainer}>
+  //   {this._maybeRenderDevelopmentModeWarning()}
+  // </View>
+  
   _maybeRenderDevelopmentModeWarning() {
     if (__DEV__) {
       const learnMoreButton = (
@@ -170,16 +172,16 @@ export default class HomeScreen extends React.Component {
     } else {
       return (
         <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
+          You are not in development mode.
         </Text>
       );
     }
   }
   
   _renderTweets() {
-        return this.state.posts.map(function(tweet, i){
+        return this.state.posts.map(function(post, i){
             return (
-                <Tweet key={i} tweet={tweet}/>
+                <Post key={i} post={post}/>
             );
         })
   }
@@ -201,7 +203,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   developmentModeText: {
-    marginBottom: 20,
+    marginBottom: 5,
     color: 'rgba(0,0,0,0.4)',
     fontSize: 14,
     lineHeight: 19,
@@ -213,24 +215,35 @@ const styles = StyleSheet.create({
   welcomeContainer: {
     alignItems: 'center',
     marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 10,
+    flex: 1,
+    flexDirection: 'row',
   },
-  welcomeImage: {
+  profileImage: {
     width: 100,
-    height: 80,
+    height: 50,
     resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,
+  },
+  newPostButton: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  createIcon: {
+    fontSize: 27,
+    paddingRight: 10,
+  },
+  createText: {
+    fontSize: 22,
   },
   getStartedContainer: {
     alignItems: 'center',
     marginHorizontal: 50,
   },
   feedContainer: {
-    marginHorizontal: 20,
     flex: 1,
     flexDirection: 'column',
-    // width: 150,
   },
   homeScreenFilename: {
     marginVertical: 7,
@@ -242,31 +255,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.05)',
     borderRadius: 3,
     paddingHorizontal: 4,
-  },
-  tabBarInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
-  },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
   },
   navigationFilename: {
     marginTop: 5,
