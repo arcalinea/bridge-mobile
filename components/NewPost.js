@@ -19,7 +19,7 @@ import { WebBrowser, Icon } from 'expo';
 export class NewPost extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { text: 'Useless Placeholder' };
+    this.state = { text: 'Write here' };
   }
   
   async _handlePost() {
@@ -58,7 +58,7 @@ export class NewPost extends React.Component {
               <TextInput
                 style={{height: 60, borderColor: 'gray', borderWidth: 1, paddingHorizontal: 10}}
                 onChangeText={(text) => this.setState({text})}
-                placeholder="Useless Placeholder"
+                placeholder="Write here"
               />
               <Button title="Post" onPress={async () => this._handlePost()} />
           </View>

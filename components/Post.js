@@ -26,54 +26,30 @@ export class Post extends React.Component {
       this.setState({modalVisible: visible});
     }
   
-  render() {
-    var fullText = this.props.post['data']['text'];
-    var text = fullText.length > 140 ? fullText.substring(0, 140).split(' ').slice(0, -1).join(' ') + "..." : fullText; 
-                
+  render() {    
+      var fullText = this.props.post['data']['text'];
+      var text = fullText.length > 140 ? fullText.substring(0, 140).split(' ').slice(0, -1).join(' ') + "..." : fullText; 
+            
       if (this.props.post['type'] == 'tweet'){
           return (
-              <View style={styles.tweetPanel}>
-                  <TouchableOpacity onPress={this._handleTweetLink(this.props.post['source'])}>
-                      <Text style={styles.tweetText}>
-                          {text}
-                      </Text>
-                  </TouchableOpacity>
+              <View>
+                {this._modalFullPost(fullText)}
+                
+                <View style={styles.tweetPanel}>
+                    <TouchableOpacity onPress={() => {this.setModalVisible(true);}}>
+                        <Text style={styles.tweetText}>
+                            {text}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
               </View>
           );
       }
       
       if (this.props.post['type'] == 'facebook_post'){
           return (
-              <View style={{marginTop: 22}}>
-                  <Modal 
-                    animationType={"slide"}
-                    transparent={true}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => {
-                      this.setModalVisible(false);
-                    }}>
-                      <View style={modalStyles.modalStyle}>
-                        <View style={modalStyles.tabBarInfoContainer}>
-                            <TouchableOpacity onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
-                                <View>
-                                  <Icon.Ionicons name='md-arrow-round-back' style={modalStyles.backArrow}/>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                        <ScrollView style={modalStyles.modalScrollPanel}>
-                          <View>
-                            <Text>{fullText}</Text>
-                            
-                            <TouchableHighlight
-                              onPress={() => {
-                                this.setModalVisible(!this.state.modalVisible);
-                              }}>
-                              <Text>Hide Modal</Text>
-                            </TouchableHighlight>
-                          </View>
-                        </ScrollView>
-                      </View>
-                  </Modal>
+              <View>
+                  {this._modalFullPost(fullText)}
                   
                   <View style={styles.facebookPanel}>
                       <TouchableOpacity onPress={() => {this.setModalVisible(true);}}>
@@ -86,6 +62,40 @@ export class Post extends React.Component {
           ); 
       }
   }
+  
+  _modalFullPost(fullText){    
+    return (
+      <Modal 
+        animationType={"slide"}
+        transparent={true}
+        visible={this.state.modalVisible}
+        onRequestClose={() => {
+          this.setModalVisible(false);
+        }}>
+          <View style={modalStyles.modalStyle}>
+            <View style={modalStyles.tabBarInfoContainer}>
+                <TouchableOpacity onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
+                    <View>
+                      <Icon.Ionicons name='md-arrow-round-back' style={modalStyles.backArrow}/>
+                    </View>
+                </TouchableOpacity>
+            </View>
+            <ScrollView style={modalStyles.modalScrollPanel}>
+              <View>
+                <Text>{fullText}</Text>
+                
+                <TouchableHighlight
+                  onPress={() => {
+                    this.setModalVisible(!this.state.modalVisible);
+                  }}>
+                  <Text>Hide Modal</Text>
+                </TouchableHighlight>
+              </View>
+            </ScrollView>
+          </View>
+      </Modal>
+    );
+  };
   
   _handleTweetLink = (source) => (e) => {
     var link = source.replace('twitter(', '').replace(')', '');
