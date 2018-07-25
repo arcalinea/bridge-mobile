@@ -32,6 +32,7 @@ export default class HomeScreen extends React.Component {
          error: false,
          posts: [],
          modalVisible: false,
+         username: '',
      }
   }
   
@@ -107,6 +108,7 @@ export default class HomeScreen extends React.Component {
                         <Icon.Ionicons name='md-arrow-round-back' style={modalStyles.backArrow}/>
                       </View>
                   </TouchableOpacity>
+                  <Text>Hello {this.state.username}</Text>
               </View>
               <ScrollView style={modalStyles.modalScrollPanel}>
                 <View>
