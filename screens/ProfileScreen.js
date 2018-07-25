@@ -1,5 +1,15 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Image, Text, Platform, ActivityIndicator } from 'react-native';
+import { 
+  ScrollView, 
+  StyleSheet, 
+  View, 
+  Image, 
+  Text, 
+  Platform, 
+  ActivityIndicator, 
+  Button,  
+  AsyncStorage,
+} from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 import SocialIcon from '../components/SocialIcon';
 
@@ -7,6 +17,11 @@ import SocialIcon from '../components/SocialIcon';
 export default class ProfileScreen extends React.Component {
   static navigationOptions = {
     title: 'Profile',
+  };
+  
+  _signOutAsync = async () => {
+    await AsyncStorage.clear();
+    this.props.navigation.navigate('Auth');
   };
 
   render() {
@@ -33,6 +48,10 @@ export default class ProfileScreen extends React.Component {
                 <SocialIcon name={Platform.OS === 'ios' ? `ios-logo-facebook${focused ? '' : '-outline'}` : 'logo-facebook'}/>
                 <Text style={styles.socialText}>Jay Graber on Facebook</Text>
          </View>
+       </View>
+       
+       <View style={styles.signOutPanel}>
+          <Button title="Sign out" onPress={this._signOutAsync} />
        </View>
        
       </ScrollView>
@@ -81,5 +100,8 @@ const styles = StyleSheet.create({
      flex: 1,
      justifyContent: 'center',
      alignItems: 'center',
+  },
+  signOutPanel: {
+    margin: 22,
   },
 });

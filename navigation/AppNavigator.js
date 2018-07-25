@@ -2,6 +2,7 @@ import React from 'react';
 import { createSwitchNavigator, createStackNavigator } from 'react-navigation';
 
 import MainTabNavigator from './MainTabNavigator';
+
 import AuthLoadingScreen from '../screens/auth/AuthLoadingScreen';
 import SignInScreen from '../screens/auth/SignInScreen';
 
