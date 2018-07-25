@@ -10,6 +10,8 @@ import {
   ActivityIndicator,
   Modal,
   TouchableHighlight,
+  AsyncStorage,
+  Button,
 } from 'react-native';
 import { WebBrowser, Icon } from 'expo';
 
@@ -32,7 +34,7 @@ export default class HomeScreen extends React.Component {
          error: false,
          posts: [],
          modalVisible: false,
-         username: '',
+         user: '',
      }
   }
   
@@ -41,6 +43,9 @@ export default class HomeScreen extends React.Component {
   }
   
   componentWillMount = async () => {
+    const username = await AsyncStorage.getItem('username');
+    this.setState({username: username});
+    
     try {
         const response = await fetch('http://192.168.0.104:7777/feed/arcalinea')
         const posts = await response.json()
@@ -108,7 +113,6 @@ export default class HomeScreen extends React.Component {
                         <Icon.Ionicons name='md-arrow-round-back' style={modalStyles.backArrow}/>
                       </View>
                   </TouchableOpacity>
-                  <Text>Hello {this.state.username}</Text>
               </View>
               <ScrollView style={modalStyles.modalScrollPanel}>
                 <View>
@@ -135,24 +139,27 @@ export default class HomeScreen extends React.Component {
               }
               style={styles.profileImage}
             />
-            <TouchableOpacity style={styles.newPostButton} onPress={() => {this.setModalVisible(true);}}>
-                <View>
-                  <Icon.Ionicons name='md-create' style={styles.createIcon}/>
-                </View>
-                <Text style={styles.createText}>New</Text>
-            </TouchableOpacity>
+            <Text style={styles.username}>{this.state.username}</Text>
           </View>
-          
+                    
           <View style={styles.feedContainer}>
             {this._renderTweets()}
           </View>
 
         </ScrollView>
+        
+        <TouchableOpacity style={styles.newPostButton} onPress={() => {this.setModalVisible(true);}}>
+          <Icon.Ionicons name='md-create' style={styles.createIcon}/>
+        </TouchableOpacity>
 
       </View>
     );
   }
 
+  // <View>
+  //   <Icon.Ionicons name='md-create' style={styles.createIcon}/>
+  // </View>
+  // <Text style={styles.createText}>New</Text>
   
   _maybeRenderDevelopmentModeWarning() {
     if (__DEV__) {
@@ -177,7 +184,7 @@ export default class HomeScreen extends React.Component {
   }
   
   _renderTweets() {
-        return this.state.posts.map(function(post, i){
+        return this.state.posts.reverse().map(function(post, i){
             return (
                 <Post key={i} post={post}/>
             );
@@ -224,13 +231,33 @@ const styles = StyleSheet.create({
     marginTop: 3,
     marginLeft: -10,
   },
-  newPostButton: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  createIcon: {
+  username: {
     fontSize: 27,
     paddingRight: 10,
+  },
+  newPostButton: {
+    backgroundColor: 'rgba(155, 130, 201, 1)',
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    borderRadius: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'black',
+        shadowOffset: { height: -3 },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+      },
+      android: {
+        elevation: 10,
+      },
+    }),
+  },
+  createIcon: {
+    color: '#fff',
+    fontSize: 27,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
   },
   createText: {
     fontSize: 22,
@@ -245,14 +272,6 @@ const styles = StyleSheet.create({
   },
   homeScreenFilename: {
     marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
   },
   navigationFilename: {
     marginTop: 5,
