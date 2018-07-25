@@ -31,8 +31,8 @@ export class NewPost extends React.Component {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify([{
-          type: 'tweet',
-          source: 'twitter(https://twitter.com/arcalinea/status/977322529508425728)',
+          type: 'smor',
+          source: '',
           author: '',
           created_at: Math.round(+new Date()/1000),
           data: { text: this.state.text },
