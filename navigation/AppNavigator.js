@@ -6,7 +6,6 @@ import MainTabNavigator from './MainTabNavigator';
 import AuthLoadingScreen from '../screens/auth/AuthLoadingScreen';
 import SignInScreen from '../screens/auth/SignInScreen';
 
-
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });
 
 export default createSwitchNavigator({
