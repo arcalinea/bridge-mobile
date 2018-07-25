@@ -41,6 +41,7 @@ export default class HomeScreen extends React.Component {
   
   componentWillMount = async () => {
     try {
+        console.log("Attempting to fetch data... \n")
         const response = await fetch('http://192.168.0.104:7777/feed/arcalinea')
         const posts = await response.json()
 
@@ -59,6 +60,7 @@ export default class HomeScreen extends React.Component {
     const {posts, loading, error} = this.state
        
     if (loading) {
+      console.log("Stuck on HomeScreen loading...\n ")
       return (
         <View style={styles.container}>
             <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -150,11 +152,7 @@ export default class HomeScreen extends React.Component {
       </View>
     );
   }
-  
 
-  // <View style={styles.getStartedContainer}>
-  //   {this._maybeRenderDevelopmentModeWarning()}
-  // </View>
   
   _maybeRenderDevelopmentModeWarning() {
     if (__DEV__) {
