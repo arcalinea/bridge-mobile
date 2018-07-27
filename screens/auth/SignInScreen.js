@@ -7,7 +7,12 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
+  Modal,
+  ScrollView,
 } from 'react-native';
+import { Icon } from 'expo';
+
+import { NewUser } from '../../components/NewUser';
 
 import config from '../../config';
 
@@ -16,7 +21,7 @@ export default class SignInScreen extends React.Component {
     super(props);
     this.state = { 
       username: '',
-      password: '',
+      password: ''
     };
   }
   
@@ -24,37 +29,37 @@ export default class SignInScreen extends React.Component {
     title: 'Please sign in',
   };
   
-  async _handleCreateAccount() {
-    console.log("Creating account")
-    try {      
-      const response = await fetch(config.host + ':7777/feed/arcalinea', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify([{
-          type: 'smor',
-          source: '',
-          author: '',
-          created_at: Math.round(+new Date()/1000),
-          data: { text: this.state.text },
-          response_to: '',
-          signature: '' }
-        ])
-      })
-      console.log("Response status", response.status);
-      if (response.status == 200){
-        alert("New Post: \n" + this.state.text);
-      }
-    } catch (e) {
-      alert("An error occurred: \n" + e);
-    }
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
   }
-
+  
   render() {
     return (
       <View style={styles.container}>
+        <Modal 
+          animationType={"slide"}
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            this.setModalVisible(false);
+          }}>
+            <View style={modalStyles.modalStyle}>
+              <View style={modalStyles.tabBarInfoContainer}>
+                  <TouchableOpacity onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
+                      <View>
+                        <Icon.Ionicons name='md-arrow-round-back' style={modalStyles.backArrow}/>
+                      </View>
+                  </TouchableOpacity>
+              </View>
+              <ScrollView style={modalStyles.modalScrollPanel}>
+                <View>
+                  <NewUser/>
+                </View>
+              </ScrollView>
+            </View>
+        </Modal>
+      
+      
         <View style={styles.loginPanel}>
           <TextInput
             style={{height: 60, borderColor: 'gray', borderWidth: 1, paddingHorizontal: 10}}
@@ -66,10 +71,10 @@ export default class SignInScreen extends React.Component {
             onChangeText={(password) => this.setState({password})}
             placeholder="Password"
           />
-          <Button color='rgba(155, 130, 201, 1)' title="Sign in!" onPress={this._signInAsync} />
+          <Button color='rgba(155, 130, 201, 1)' title="Sign in" onPress={this._signInAsync} />
         </View>
         <View style={styles.actionPanel}>
-          <TouchableOpacity onPress={async () => this._handleCreateAccount}>
+          <TouchableOpacity onPress={() => {this.setModalVisible(true);}}>
             <Text style={{textAlign: 'center'}}>Create account</Text>
           </TouchableOpacity>
         </View>
