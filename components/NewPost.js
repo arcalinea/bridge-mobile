@@ -16,6 +16,8 @@ import {
 } from 'react-native';
 import { WebBrowser, Icon } from 'expo';
 
+import config from '../config';
+
 export class NewPost extends React.Component {
   constructor(props) {
     super(props);
@@ -24,7 +26,7 @@ export class NewPost extends React.Component {
   
   async _handlePost() {
     try {      
-      const response = await fetch('http://192.168.0.23:7777/feed/arcalinea', {
+      const response = await fetch(config.host + ':7777/feed/arcalinea', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',

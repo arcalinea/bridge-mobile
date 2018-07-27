@@ -22,6 +22,8 @@ import { NewPost } from '../components/NewPost';
 import dataFile from '../assets/posts.js';
 import modalStyles from '../assets/styles/modal.js';
 
+import config from '../config';
+
 const postData = [
     {
     type: 'tweet',
@@ -104,9 +106,8 @@ export default class HomeScreen extends React.Component {
   componentWillMount = async () => {
     const username = await AsyncStorage.getItem('username');
     this.setState({username: username});
-    
     try {
-        const response = await fetch('http://192.168.0.23:7777/feed/arcalinea')
+        const response = await fetch(config.host + ':7777/feed/arcalinea')
         const posts = await response.json()
 
         this.setState({loading: false, posts})
