@@ -34,24 +34,24 @@ export default class ProfileScreen extends React.Component {
          />
          
          <Text style={styles.profileText}>
-            Into p2p networks, foxes, cryptography, orchids, and the ocean.
+            Into p2p networks, cryptography, and the ocean.
          </Text>
        </View>
        
        <View style={styles.socialProfiles}>
          <View style={styles.socialLink}>
-                <SocialIcon name={Platform.OS === 'ios' ? `ios-logo-twitter${focused ? '' : '-outline'}` : 'logo-twitter'}/>
+                <SocialIcon color='#1da1f2' name={Platform.OS === 'ios' ? `ios-logo-twitter${focused ? '' : '-outline'}` : 'logo-twitter'}/>
                 <Text style={styles.socialText}>@arcalinea on Twitter</Text>
          </View>
          
          <View style={styles.socialLink}>
-                <SocialIcon name={Platform.OS === 'ios' ? `ios-logo-facebook${focused ? '' : '-outline'}` : 'logo-facebook'}/>
+                <SocialIcon color='#1da1f2' name={Platform.OS === 'ios' ? `ios-logo-facebook${focused ? '' : '-outline'}` : 'logo-facebook'}/>
                 <Text style={styles.socialText}>Jay Graber on Facebook</Text>
          </View>
        </View>
        
        <View style={styles.signOutPanel}>
-          <Button title="Sign out" onPress={this._signOutAsync} />
+          <Button color='rgba(155, 130, 201, 1)' title="Sign out" onPress={this._signOutAsync} />
        </View>
        
       </ScrollView>

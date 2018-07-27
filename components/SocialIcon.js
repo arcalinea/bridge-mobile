@@ -10,7 +10,7 @@ export default class SocialIcon extends React.Component {
         name={this.props.name}
         size={26}
         style={{ paddingRight: 8 }}
-        color='rgba(33, 131, 196, 1)'
+        color={this.props.color}
       />
     );
   }

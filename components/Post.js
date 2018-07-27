@@ -30,14 +30,30 @@ export class Post extends React.Component {
       var fullText = this.props.post['data']['text'];
       var text = fullText.length > 140 ? fullText.substring(0, 140).split(' ').slice(0, -1).join(' ') + "..." : fullText; 
 
+      if (this.props.post['type'] == 'smor'){
+          return (
+              <View>
+                {this._modalFullPost(fullText)}
+                <View style={styles.tweetPanel}>
+                    <SocialIcon color='rgba(155, 130, 201, 1)' name={Platform.OS === 'ios' ? `ios-bonfire${focused ? '' : '-outline'}` : 'md-bonfire'}/>
+                    <TouchableOpacity style={styles.postBox} onPress={() => {this.setModalVisible(true);}}>
+                        <Text style={styles.postText}>
+                            {text}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+              </View>
+          );
+      }
             
       if (this.props.post['type'] == 'tweet'){
           return (
               <View>
                 {this._modalFullPost(fullText)}
                 <View style={styles.tweetPanel}>
-                    <TouchableOpacity onPress={() => {this.setModalVisible(true);}}>
-                        <Text style={styles.tweetText}>
+                    <SocialIcon color='#1da1f2' name={Platform.OS === 'ios' ? `ios-logo-twitter${focused ? '' : '-outline'}` : 'logo-twitter'}/>
+                    <TouchableOpacity style={styles.postBox} onPress={() => {this.setModalVisible(true);}}>
+                        <Text style={styles.postText}>
                             {text}
                         </Text>
                     </TouchableOpacity>
@@ -52,8 +68,9 @@ export class Post extends React.Component {
                   {this._modalFullPost(fullText)}
                   
                   <View style={styles.facebookPanel}>
-                      <TouchableOpacity onPress={() => {this.setModalVisible(true);}}>
-                          <Text style={styles.tweetText}>
+                      <SocialIcon color='#1da1f2' name={Platform.OS === 'ios' ? `ios-logo-facebook${focused ? '' : '-outline'}` : 'logo-facebook'}/>
+                      <TouchableOpacity style={styles.postBox} onPress={() => {this.setModalVisible(true);}}>
+                          <Text style={styles.postText}>
                               {text}
                           </Text>
                       </TouchableOpacity>
@@ -126,22 +143,29 @@ function timeConverter(UNIX_timestamp){
 
 const styles = StyleSheet.create({
     tweetPanel: {
+      flex: 1,
+      flexDirection: 'row',
       borderColor: 'rgba(0,0,0,0.07)',
       borderWidth: 1,
       borderRadius: 2,
-      backgroundColor: '#EFF9FE',
+      padding: 5,
     },
     facebookPanel: {
+      flex: 1,
+      flexDirection: 'row',
       borderColor: 'rgba(0,0,0,0.07)',
       borderWidth: 1,
       borderRadius: 2,
-      backgroundColor: '#FAEFFE',
+      padding: 5,
     },
-    tweetText: {
+    postBox: {
+      width: '90%',
+    },
+    postText: {
       fontSize: 16,
       lineHeight: 24,
       textAlign: 'left',
-      padding: 10,
+      paddingLeft: 3,
     },
     fullViewText: {
       fontSize: 18,

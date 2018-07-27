@@ -24,7 +24,7 @@ export class NewPost extends React.Component {
   
   async _handlePost() {
     try {      
-      const response = await fetch('http://192.168.0.104:7777/feed/arcalinea', {
+      const response = await fetch('http://192.168.0.23:7777/feed/arcalinea', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -36,7 +36,7 @@ export class NewPost extends React.Component {
           author: '',
           created_at: Math.round(+new Date()/1000),
           data: { text: this.state.text },
-          response_to: 'twitter(https://twitter.com/decentralion/status/977316726093234177)',
+          response_to: '',
           signature: '' }
         ])
       })

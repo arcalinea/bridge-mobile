@@ -34,7 +34,7 @@ export default class SignInScreen extends React.Component {
             onChangeText={(password) => this.setState({password})}
             placeholder="Password"
           />
-          <Button title="Sign in!" onPress={this._signInAsync} />
+          <Button color='rgba(155, 130, 201, 1)' title="Sign in!" onPress={this._signInAsync} />
         </View>
       </View>
     );
