@@ -15,6 +15,7 @@ import {
   TextInput,
 } from 'react-native';
 import { WebBrowser, Icon } from 'expo';
+import nacl from 'tweetnacl';
 
 import config from '../config';
 
@@ -22,12 +23,26 @@ export class NewUser extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      username: '',
-      pubkey: ''
+      username: ''
    };
   }
+  // 
+  // createKeys(){
+  //   console.log("Creating keypair")
+  //   var keys = nacl.box.keyPair();
+  //   console.log("keys", keys)
+  //   return keys
+  // }
   
   async _handleCreateAccount() {
+    console.log("Creating keypair") // do this with more randomness
+    var seed = new Uint8Array(32);
+    seed[3] = 5;
+    var keys = nacl.sign.keyPair.fromSeed(seed);
+    console.log("keys", keys)
+    // save the secretkey locally
+    
+
     console.log("Creating account")
     try {      
       const response = await fetch(config.host + ':7777/register', {
@@ -38,7 +53,7 @@ export class NewUser extends React.Component {
         },
         body: JSON.stringify({
           username: this.state.username,
-          pubkey: this.state.pubkey,
+          pubkey: keys.publicKey,
           created_at: Math.round(+new Date()/1000)
          }
        )
