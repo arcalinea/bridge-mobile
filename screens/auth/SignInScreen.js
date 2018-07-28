@@ -21,7 +21,8 @@ export default class SignInScreen extends React.Component {
     super(props);
     this.state = { 
       username: '',
-      password: ''
+      password: '',
+      modalVisible: false
     };
   }
   

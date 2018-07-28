@@ -13,9 +13,12 @@ import {
   Container,
   Content,
   TextInput,
+  AsyncStorage,
 } from 'react-native';
 import { WebBrowser, Icon } from 'expo';
 import nacl from 'tweetnacl';
+
+import { ToHexString } from '../utils';
 
 import config from '../config';
 
@@ -23,10 +26,14 @@ export class NewUser extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      username: ''
+      username: '',
+      password: ''
    };
   }
-  // 
+  
+  toHexString = bytes =>
+    bytes.reduce((str, byte) => str + byte.toString(16).padStart(2, '0'), '');
+  
   // createKeys(){
   //   console.log("Creating keypair")
   //   var keys = nacl.box.keyPair();
@@ -41,11 +48,23 @@ export class NewUser extends React.Component {
     var keys = nacl.sign.keyPair.fromSeed(seed);
     console.log("keys", keys)
     // save the secretkey locally
+    // const randNonce = randomBytes(32);
     
+    // var smkey = stringToUint8Array(password); // must be 32 bytes, pad it if you have to
+    // var smKey = [];
+    // var buffer = new Buffer(password, 'utf16le');
+    // for (var i = 0; i < buffer.length; i++) {
+    //     smKey.push(buffer[i]);
+    // }
+    // // var nonce = nacl.randomBytes(nacl.box.nonceLength);
+    // var encryptedSecretKey = nacl.secretbox(secretKey, randNonce, smKey);
+    
+    // super insecure, do not do this for real
+    // await AsyncStorage.setItem('privkey', keys.secretKey);
 
     console.log("Creating account")
     try {      
-      const response = await fetch(config.host + ':7777/register', {
+      const response = await fetch(config.host + ':7777/user/new', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -53,7 +72,7 @@ export class NewUser extends React.Component {
         },
         body: JSON.stringify({
           username: this.state.username,
-          pubkey: keys.publicKey,
+          pubkey: ToHexString(keys.publicKey),
           created_at: Math.round(+new Date()/1000)
          }
        )
