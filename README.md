@@ -10,7 +10,7 @@ This is demo* code to test the hypothesis that it is possible to build a mobile 
 - uses a mutable data structure optimized for decentralized networks, that makes it easy to import and modify posts
 - connects to server for convenience, but can publish posts p2p through a decentralized data store
 
-See bridge-serve for backend code and data structure rationale.
+See bridge-serve for backend code and data structure rationale. I started with a mobile app to design for usability in a constrained computing environment, which many users interact with social media from.
 
 _*Experimental, work-in-progress, totally unusable right now._
 
