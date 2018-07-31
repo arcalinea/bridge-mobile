@@ -11,7 +11,7 @@ This is demo* code to test the hypothesis that it is possible to build a mobile 
 - [ ] but can publish posts p2p through a decentralized data store
 - [ ] authenticates identity from different platforms through ownership of usernames/handles
 
-See bridge-serve for backend code and data structure rationale. I started with a mobile app to design for usability in a constrained computing environment, which many users interact with social media from.
+See [bridge-serve](https://github.com/arcalinea/bridge-serve) for backend code and data structure rationale. I started with a mobile app to design for usability in a constrained computing environment, which many users interact with social media from.
 
 _*Experimental, work-in-progress, not ready for more than demo use cases right now._
 
