@@ -13,6 +13,7 @@ import {
 import { ExpoLinksView } from '@expo/samples';
 import SocialIcon from '../components/SocialIcon';
 
+import config from '../config';
 
 export default class ProfileScreen extends React.Component {
   static navigationOptions = {
@@ -41,7 +42,7 @@ export default class ProfileScreen extends React.Component {
        <View style={styles.socialProfiles}>
          <View style={styles.socialLink}>
                 <SocialIcon color='#1da1f2' name={Platform.OS === 'ios' ? `ios-logo-twitter${focused ? '' : '-outline'}` : 'logo-twitter'}/>
-                <Text style={styles.socialText}>@arcalinea on Twitter</Text>
+                <Text style={styles.socialText}>@{config.username} on Twitter</Text>
          </View>
          
          <View style={styles.socialLink}>

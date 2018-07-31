@@ -1,4 +1,4 @@
-export default posts = [
+const posts = [
     {
     type: 'tweet',
     source: 'twitter(https://twitter.com/arcalinea/status/977322529508425728)',
@@ -56,3 +56,5 @@ export default posts = [
     response_to: '',
     signature: '' }
 ]
+
+module.exports = posts;

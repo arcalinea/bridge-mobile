@@ -26,7 +26,7 @@ export class NewPost extends React.Component {
   
   async _handlePost() {
     try {      
-      const response = await fetch(config.host + ':7777/feed/arcalinea', {
+      const response = await fetch(config.host + ':7777/feed/' + config.username, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',

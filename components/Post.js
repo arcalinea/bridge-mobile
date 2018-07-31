@@ -16,6 +16,7 @@ import SocialIcon from '../components/SocialIcon';
 
 import Colors from '../constants/Colors';
 import modalStyles from '../assets/styles/modal.js';
+import config from '../config';
 
 export class Post extends React.Component {
     state = {
@@ -109,6 +110,10 @@ export class Post extends React.Component {
                   <TouchableOpacity onPress={this._handleTweetLink(this.props.post['source'])}>
                     <Text style={styles.fullViewLink}>View original</Text>
                   </TouchableOpacity>
+                  
+                  <TouchableOpacity onPress={async () => this._handleDeletion(this.props.post)}>
+                    <Text style={styles.fullViewLink}>Delete Post</Text>
+                  </TouchableOpacity>
                 </View>
                 
               </View>
@@ -122,6 +127,24 @@ export class Post extends React.Component {
     var link = source.replace('twitter(', '').replace(')', '');
     WebBrowser.openBrowserAsync(link);
   };
+  
+  async _handleDeletion(post) {
+    try {      
+      const response = await fetch(config.host + ':7777/post/' + config.username + "/" + post['created_at'], {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }
+      })
+      console.log("Response status", response.status);
+      if (response.status == 200){
+        alert("Post deleted");
+      }
+    } catch (e) {
+      alert("An error occurred: \n" + e);
+    }
+  }
 }
 
 function timeConverter(UNIX_timestamp){

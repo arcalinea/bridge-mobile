@@ -34,34 +34,14 @@ export class NewUser extends React.Component {
   toHexString = bytes =>
     bytes.reduce((str, byte) => str + byte.toString(16).padStart(2, '0'), '');
   
-  // createKeys(){
-  //   console.log("Creating keypair")
-  //   var keys = nacl.box.keyPair();
-  //   console.log("keys", keys)
-  //   return keys
-  // }
-  
   async _handleCreateAccount() {
-    console.log("Creating keypair") // do this with more randomness
-    var seed = new Uint8Array(32);
-    seed[3] = 5;
+    // this is terrible, find a key management solution
+    console.log("Creating keypair") 
+    var seed = new Uint8Array(32); 
     var keys = nacl.sign.keyPair.fromSeed(seed);
     console.log("keys", keys)
-    // save the secretkey locally
-    // const randNonce = randomBytes(32);
+    // will throw away the privkey and only send public key to server for this demo 
     
-    // var smkey = stringToUint8Array(password); // must be 32 bytes, pad it if you have to
-    // var smKey = [];
-    // var buffer = new Buffer(password, 'utf16le');
-    // for (var i = 0; i < buffer.length; i++) {
-    //     smKey.push(buffer[i]);
-    // }
-    // // var nonce = nacl.randomBytes(nacl.box.nonceLength);
-    // var encryptedSecretKey = nacl.secretbox(secretKey, randNonce, smKey);
-    
-    // super insecure, do not do this for real
-    // await AsyncStorage.setItem('privkey', keys.secretKey);
-
     console.log("Creating account")
     try {      
       const response = await fetch(config.host + ':7777/user/new', {
