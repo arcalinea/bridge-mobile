@@ -26,3 +26,17 @@ Test with [Expo](https://expo.io/)
 ```
 exp start
 ```
+
+Add a config file with the following (user state is not being persisted through app, so this is a hack): 
+
+```
+const config = {
+    host: {ip and port where expo is running},
+    username: {your username},
+    profile_pic: 'assets/images/{your profile pic}'
+};
+
+module.exports = config;
+```
+
+Put a profile pic in `assets/images/`, and add dummy post data to fall back on for UI development when bridge-serve connection is down in a file called `assets/posts.js`.
