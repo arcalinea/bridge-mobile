@@ -12,7 +12,7 @@ This is demo* code to test the hypothesis that it is possible to build a mobile 
 
 See bridge-serve for backend code and data structure rationale.
 
-*Experimental, work-in-progress, totally unusable right now.
+_*Experimental, work-in-progress, totally unusable right now._
 
 Would be nice to have: 
 
