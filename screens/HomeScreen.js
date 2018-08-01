@@ -34,7 +34,7 @@ export default class HomeScreen extends React.Component {
      this.state = {
          loading: true,
          error: false,
-         posts: postData,
+         posts: posts,
          modalVisible: false,
          user: '',
      }
@@ -56,7 +56,7 @@ export default class HomeScreen extends React.Component {
     } catch (e) {
         if (__DEV__){
             console.log("In dev mode, using hardcoded tweets")
-            this.setState({loading: false, error: false, posts: postData})
+            this.setState({loading: false, error: false, posts: posts})
         } else {
             this.setState({loading: true, error: true})
         }
