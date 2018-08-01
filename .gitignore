@@ -2,5 +2,5 @@ node_modules/**/*
 .expo/**/*
 test.js
 config.js
-assets/images/j-twitter-profile.jpg
+assets/images/profile.jpg
 assets/posts.js

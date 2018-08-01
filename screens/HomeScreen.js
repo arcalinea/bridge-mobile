@@ -74,8 +74,8 @@ export default class HomeScreen extends React.Component {
                   <Image
                     source={
                       __DEV__
-                        ? require('../assets/images/j-twitter-profile.jpg')
-                        : require('../assets/images/j-twitter-profile.jpg')
+                        ? require('../assets/images/profile.jpg')
+                        : require('../assets/images/profile.jpg')
                     }
                     style={styles.profileImage}
                   />
@@ -129,8 +129,8 @@ export default class HomeScreen extends React.Component {
             <Image
               source={
                 __DEV__
-                  ? require('../' + config.profile_pic) // TODO: Fix image paths
-                  : require('../' + config.profile_pic) 
+                  ? require('../assets/images/profile.jpg') // TODO: Fix image paths
+                  : require('../assets/images/profile.jpg') 
               }
               style={styles.profileImage}
             />

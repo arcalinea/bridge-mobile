@@ -30,7 +30,7 @@ export default class ProfileScreen extends React.Component {
       <ScrollView style={styles.container}>
        <View style={styles.profileHeader}>
          <Image
-           source={require('../assets/images/j-twitter-profile.jpg')}
+           source={require('../assets/images/profile.jpg')}
            style={styles.profileImage}
          />
          

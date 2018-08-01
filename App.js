@@ -32,8 +32,8 @@ export default class App extends React.Component {
     return Promise.all([
       Asset.loadAsync([
         // TODO: Fix img paths
-        require('./' + config.profile_pic),
-        require('./' + config.profile_pic),
+        require('./assets/images/profile.jpg'),
+        require('./assets/images/profile.jpg'),
       ]),
       Font.loadAsync({
         // This is the font that we are using for our tab bar
